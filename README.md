@@ -1,4 +1,10 @@
-# react-boilerplate
+# SVG/Emoji Corrupter
+
+## TODO
+
+Make a nice UI with sliders and stuff to fine tune the corruptions.
+
+## react-boilerplate
 
 Simple react starter with the following config:
 
@@ -23,8 +29,8 @@ To lint all JavaScript files in the `src` folder:
 yarn lint
 ```
 
-To build and deploy your app to `gh-pages` branch on the GitHub repo:
+To build assets to the `dist` folder:
 
 ```bash
-yarn deploy
+webpack -p
 ```
