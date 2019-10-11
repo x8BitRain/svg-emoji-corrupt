@@ -6,8 +6,9 @@ class Corrupt extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      corruptAmount: 0,
-      corruptReplace: 345
+      corruptAmount: 0, // Default corruption multiplier
+      corruptReplace: 345, // Default corruption target values
+      corruptUseMultiplier: true //Default to use corruptAmount as a multiplier for a random value
     };
   }
 
@@ -23,6 +24,13 @@ class Corrupt extends Component {
     });
   }
 
+  setCorruptUseMultiplier = (e) => {
+    this.setState({
+      corruptUseMultiplier: !this.state.corruptUseMultiplier
+    });
+    console.log('changed state');
+  }
+
   svgReset = () => {
     let svgPaths = document.querySelectorAll("svg path");
     for (let i = 0; i < svgPaths.length; i++) {
@@ -30,7 +38,12 @@ class Corrupt extends Component {
     }
   }
 
-  getRand = () => Math.floor(Math.random() * this.state.corruptAmount);
+  setCorruptValue = () => {
+    if (this.state.corruptUseMultiplier) {
+      return Math.floor(Math.random() * this.state.corruptAmount);
+    }
+    return this.state.corruptAmount;
+  }
 
   svgCorrupt = () => {
     let corruptTarget = new RegExp(`[${this.state.corruptReplace}]`, 'gi');
@@ -40,7 +53,7 @@ class Corrupt extends Component {
     svgOG.push(svgPaths[idx].cloneNode(true));});}
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
-      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(corruptTarget, this.getRand));
+      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(corruptTarget, this.setCorruptValue));
       }
       svgDataLock = 1;
 
@@ -60,16 +73,23 @@ class Corrupt extends Component {
         onInput={this.setCorruptAmount}
         value={this.state.corruptAmount}
       />
-
       <output
         for="quantity">{this.state.corruptAmount}
       </output>
-
       <input
         type="text"
         className="svgCorruptTargetValues"
         onChange={this.setCorruptReplace}
       />
+      <label>
+      <input
+        type="checkbox"
+        className="cecl"
+        checked={this.state.corruptUseMultiplier}
+        onChange={this.setCorruptUseMultiplier}
+      />
+      Use Multiplier?
+      </label>
 
       </React.Fragment>
     );
