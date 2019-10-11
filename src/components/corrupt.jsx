@@ -14,13 +14,13 @@ class Corrupt extends Component {
 
    setCorruptAmount = (e) => {
     this.setState({
-      corruptAmount: e.currentTarget.value
+      corruptAmount: e.target.value
     });
   }
 
   setCorruptReplace = (e) => {
     this.setState({
-      corruptReplace: e.currentTarget.value
+      corruptReplace: e.target.value
     });
   }
 
@@ -28,7 +28,6 @@ class Corrupt extends Component {
     this.setState({
       corruptUseMultiplier: !this.state.corruptUseMultiplier
     });
-    console.log('changed state');
   }
 
   svgReset = () => {
@@ -53,10 +52,12 @@ class Corrupt extends Component {
     svgOG.push(svgPaths[idx].cloneNode(true));});}
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
-      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(corruptTarget, this.setCorruptValue));
+      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d')
+        .replace(corruptTarget, this.setCorruptValue));
       }
       svgDataLock = 1;
-
+      console.log("corrupting targets " + this.state.corruptReplace);
+      console.log("replacing with " + this.state.corruptAmount);
     };
 
 
@@ -77,14 +78,15 @@ class Corrupt extends Component {
         for="quantity">{this.state.corruptAmount}
       </output>
       <input
-        type="text"
+        type="number"
         className="svgCorruptTargetValues"
         onChange={this.setCorruptReplace}
+
+        placeholder="345"
       />
       <label>
       <input
         type="checkbox"
-        className="cecl"
         checked={this.state.corruptUseMultiplier}
         onChange={this.setCorruptUseMultiplier}
       />
