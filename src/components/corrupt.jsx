@@ -7,19 +7,19 @@ class Corrupt extends Component {
     super(props);
     this.state = {
       corruptAmount: 0,
-      corruptReplace: 0
+      corruptReplace: 345
     };
   }
-
-  // getInitialState() {
-  //   return {
-  //     corruptAmount: 1
-  //   };
-  // }
 
    setCorruptAmount = (e) => {
     this.setState({
       corruptAmount: e.currentTarget.value
+    });
+  }
+
+  setCorruptReplace = (e) => {
+    this.setState({
+      corruptReplace: e.currentTarget.value
     });
   }
 
@@ -33,14 +33,14 @@ class Corrupt extends Component {
   getRand = () => Math.floor(Math.random() * this.state.corruptAmount);
 
   svgCorrupt = () => {
-    console.log(this.state.corruptAmount);
+    let corruptTarget = new RegExp(`[${this.state.corruptReplace}]`, 'gi');
     let svgPaths = document.querySelectorAll("svg path");
     if (svgDataLock === 0) {
     svgPaths.forEach(function(e, idx){
     svgOG.push(svgPaths[idx].cloneNode(true));});}
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
-      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(/[89]/g, this.getRand));
+      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(corruptTarget, this.getRand));
       }
       svgDataLock = 1;
 
@@ -64,6 +64,12 @@ class Corrupt extends Component {
       <output
         for="quantity">{this.state.corruptAmount}
       </output>
+
+      <input
+        type="text"
+        className="svgCorruptTargetValues"
+        onChange={this.setCorruptReplace}
+      />
 
       </React.Fragment>
     );
