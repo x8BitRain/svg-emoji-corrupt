@@ -4,27 +4,66 @@ let svgDataLock = 0; // This stops svgOG from being updated the first execution.
 let svgOG = [];
 
 class Corrupt extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      corruptAmount: 0,
+      corruptReplace: 0
+    };
+  }
+
+  getInitialState() {
+    return {
+      corruptAmount: 50
+    };
+  }
+
+   setCorruptAmount = (e) => {
+    this.setState({
+      corruptAmount: e.currentTarget.value
+    });
+  }
+
+  svgReset = () => {
+    for (let i = 0; i < svgPaths.length; i++) {
+      svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
+    }
+  }
+
+
 
   svgCorrupt = () => {
     let svgPaths = document.querySelectorAll("svg path");
     if (svgDataLock === 0) {
     svgPaths.forEach(function(e, idx){
-    svgOG.push(svgPaths[idx].cloneNode(true));
-      });
-    }
-
+    svgOG.push(svgPaths[idx].cloneNode(true));});}
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
-      //console.log('reset');
-      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(/[89]/g, getRand));
+      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(/[89]/g, this.state.corruptAmount));
       }
-      //console.log('b');
       svgDataLock = 1;
     };
 
+
   render() {
     return (
+      <React.Fragment>
       <button onClick={this.svgCorrupt}>Fucc me up</button>
+      <button onClick={this.svgCorrupt}>Reset</button>
+      <input
+        type="range"
+        name="quantity"
+        min="0"
+        max="100"
+        onInput={this.setCorruptAmount}
+        value={this.state.corruptAmount}
+      />
+
+      <output
+        for="quantity">{this.state.corruptAmount}
+      </output>
+
+      </React.Fragment>
     );
   }
 }

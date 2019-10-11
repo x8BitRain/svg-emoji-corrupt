@@ -9,8 +9,8 @@ class InputBar extends Component {
     return (
       <input
         type="text"
-        className="form-control form-search"
-        onChange={console.log('test')}
+        className=""
+        // onChange=""
       />
     );
   }
