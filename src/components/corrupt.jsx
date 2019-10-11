@@ -25,6 +25,7 @@ class Corrupt extends Component {
   }
 
   svgReset = () => {
+    let svgPaths = document.querySelectorAll("svg path");
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
     }
@@ -49,7 +50,7 @@ class Corrupt extends Component {
     return (
       <React.Fragment>
       <button onClick={this.svgCorrupt}>Fucc me up</button>
-      <button onClick={this.svgCorrupt}>Reset</button>
+      <button onClick={this.svgReset}>Reset</button>
       <input
         type="range"
         name="quantity"
