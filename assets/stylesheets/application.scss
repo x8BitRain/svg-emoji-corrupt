@@ -1,0 +1,21 @@
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#controls {
+  position:absolute;
+  top:20px;
+  right:20px;
+}
+
+#scene {
+  height: auto;
+  width: 40vw;
+  position: absolute;
+  top: 10vh;
+  left: 10vw;
+  svg {
+    overflow: visible;
+  }
+}
