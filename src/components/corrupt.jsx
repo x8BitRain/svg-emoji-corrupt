@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-const getRand = () => Math.floor(Math.random() * 10) ;
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
 let svgOG = [];
 
@@ -12,11 +11,11 @@ class Corrupt extends Component {
     };
   }
 
-  getInitialState() {
-    return {
-      corruptAmount: 50
-    };
-  }
+  // getInitialState() {
+  //   return {
+  //     corruptAmount: 1
+  //   };
+  // }
 
    setCorruptAmount = (e) => {
     this.setState({
@@ -31,18 +30,20 @@ class Corrupt extends Component {
     }
   }
 
-
+  getRand = () => Math.floor(Math.random() * this.state.corruptAmount);
 
   svgCorrupt = () => {
+    console.log(this.state.corruptAmount);
     let svgPaths = document.querySelectorAll("svg path");
     if (svgDataLock === 0) {
     svgPaths.forEach(function(e, idx){
     svgOG.push(svgPaths[idx].cloneNode(true));});}
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
-      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(/[89]/g, this.state.corruptAmount));
+      svgPaths[i].setAttribute('d', svgPaths[i].getAttribute('d').replace(/[89]/g, this.getRand));
       }
       svgDataLock = 1;
+
     };
 
 
