@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import Button from '@material-ui/core/Button';
+import 'element-theme-default';
+import { Button } from 'element-react';
 
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
 let svgOG = [];
@@ -72,6 +72,22 @@ class Corrupt extends Component {
   render() {
     return (
       <React.Fragment>
+      <input
+        placeholder="SVG URL"
+        type="text"
+        className=""
+        onChange={this.setSvgUrl}
+        defaultValue=""
+      />
+
+      <input
+        type="number"
+        className="svgCorruptTargetValues"
+        onChange={this.setCorruptReplace}
+        placeholder="345"
+      />
+
+      <p>WITH</p>
       <output for="quantity">
       <input
         type="range"
@@ -84,12 +100,7 @@ class Corrupt extends Component {
       />
       {this.state.corruptAmount}
       </output>
-      <input
-        type="number"
-        className="svgCorruptTargetValues"
-        onChange={this.setCorruptReplace}
-        placeholder="345"
-      />
+
       <label>
       <input
         type="checkbox"
@@ -101,16 +112,8 @@ class Corrupt extends Component {
       Use Multiplier?
       </label>
 
-      <input
-        placeholder="SVG URL"
-        type="text"
-        className=""
-        onChange={this.setSvgUrl}
-        defaultValue=""
-      />
-
-      <Button onClick={this.svgReset} variant="contained" color="primary" >Reset</Button>
-      <Button  onClick={this.svgCorrupt} variant="contained" color="secondary" >CORRUPT</Button>
+      <Button onClick={this.svgReset} type="info" >Reset</Button>
+      <Button  onClick={this.svgCorrupt} type="warning" >CORRUPT</Button>
 
 
       </React.Fragment>
