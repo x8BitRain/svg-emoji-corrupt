@@ -44,6 +44,10 @@ class Corrupt extends Component {
     return this.state.corruptAmount;
   }
 
+  setSvgUrl = (e) => {
+    this.props.url(e.target.value);
+  }
+
   svgCorrupt = () => {
     let corruptTarget = new RegExp(`[${this.state.corruptReplace}]`, 'gi');
     let svgPaths = document.querySelectorAll("svg path");
@@ -92,6 +96,13 @@ class Corrupt extends Component {
       />
       Use Multiplier?
       </label>
+
+      <input
+        placeholder="SVG URL"
+        type="text"
+        className=""
+        onChange={this.setSvgUrl}
+      />
 
       </React.Fragment>
     );

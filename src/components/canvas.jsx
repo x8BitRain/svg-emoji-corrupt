@@ -5,15 +5,12 @@ import SVG from 'react-inlinesvg';
 class Canvas extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      svgUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg'
-    };
   }
 
-  render() {
+ render() {
     return (
 
-       <SVG src={this.state.svgUrl} />
+       <SVG src={this.props.svgUrl} />
 
     );
   }
@@ -21,3 +18,7 @@ class Canvas extends Component {
 
 
 export default Canvas;
+
+
+
+
