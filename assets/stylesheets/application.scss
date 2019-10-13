@@ -1,14 +1,32 @@
+@import url(loader.scss);
+
+html {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  background: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%202%202%22%3E%3Cpath%20d%3D%22M1%202V0h1v1H0v1z%22%20fill-opacity%3D%22.05%22%2F%3E%3C%2Fsvg%3E);
+  background-size: 16px 16px;
+  background-color: #f2f2f2;
+  transition: background-color 0.2s ease-in-out;
+}
+
 body {
   height: 100vh;
   overflow: hidden;
 }
 
 #controls {
-  position:absolute;
-  top:20px;
-  right:20px;
+  display:grid;
+  button, input {
+  margin:10px;
+  }
 }
 
+#controls-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  //width: 20%;
+  padding: 3%;
+}
 #scene {
   height: auto;
   width: 40vw;
@@ -19,3 +37,10 @@ body {
     overflow: visible;
   }
 }
+
+#outer-scene {
+  height:1000vh;
+  width:1000vw;
+}
+
+

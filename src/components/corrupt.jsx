@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import Button from '@material-ui/core/Button';
+
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
 let svgOG = [];
 
@@ -30,7 +33,7 @@ class Corrupt extends Component {
     });
   }
 
-  svgReset = () => {
+  svgReset = (attr = "") => {
     let svgPaths = document.querySelectorAll("svg path");
     for (let i = 0; i < svgPaths.length; i++) {
       svgPaths[i].setAttribute('d', svgOG[i].getAttribute('d'));
@@ -46,6 +49,7 @@ class Corrupt extends Component {
 
   setSvgUrl = (e) => {
     this.props.url(e.target.value);
+    this.svgReset;
   }
 
   svgCorrupt = () => {
@@ -68,24 +72,22 @@ class Corrupt extends Component {
   render() {
     return (
       <React.Fragment>
-      <button onClick={this.svgCorrupt}>Fucc me up</button>
-      <button onClick={this.svgReset}>Reset</button>
+      <output for="quantity">
       <input
         type="range"
         name="quantity"
         min="0"
         max="100"
-        onInput={this.setCorruptAmount}
+        onChange={this.setCorruptAmount}
+        //defaultValue={this.state.corruptAmount}
         value={this.state.corruptAmount}
       />
-      <output
-        for="quantity">{this.state.corruptAmount}
+      {this.state.corruptAmount}
       </output>
       <input
         type="number"
         className="svgCorruptTargetValues"
         onChange={this.setCorruptReplace}
-
         placeholder="345"
       />
       <label>
@@ -93,6 +95,8 @@ class Corrupt extends Component {
         type="checkbox"
         checked={this.state.corruptUseMultiplier}
         onChange={this.setCorruptUseMultiplier}
+        //defaultValue={this.state.corruptUseMultiplier}
+
       />
       Use Multiplier?
       </label>
@@ -102,7 +106,12 @@ class Corrupt extends Component {
         type="text"
         className=""
         onChange={this.setSvgUrl}
+        defaultValue=""
       />
+
+      <Button onClick={this.svgReset} variant="contained" color="primary" >Reset</Button>
+      <Button  onClick={this.svgCorrupt} variant="contained" color="secondary" >CORRUPT</Button>
+
 
       </React.Fragment>
     );

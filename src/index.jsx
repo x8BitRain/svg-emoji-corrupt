@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import Canvas from './components/canvas.jsx';
 import '../assets/stylesheets/application.scss';
 import Corrupt from './components/corrupt.jsx';
+import panzoom from 'panzoom';
+
 const root = document.getElementById('root');
 
 class App extends Component {
@@ -21,13 +23,16 @@ class App extends Component {
   render () {
   return (
     <div>
+    <div id="outer-scene">
       <div id="scene">
-      <p>{this.state.svgLink}</p>
       <Canvas svgUrl={this.state.svgLink}/>
       </div>
+    </div>
+    <div id="controls-panel">
       <div id="controls">
         <Corrupt url={this.setSvgLink} />
       </div>
+    </div>
     </div>
    );
   }
@@ -35,4 +40,6 @@ class App extends Component {
 
 if (root) {
   ReactDOM.render(<App />, root);
+  const svgScene = document.querySelector('#outer-scene');
+  panzoom(svgScene); //for the pinch/zoom/pan fuctionality.
 }
