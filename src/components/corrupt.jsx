@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import 'element-theme-default';
-import { Button } from 'element-react';
 
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
 let svgOG = [];
