@@ -1,10 +1,14 @@
 # SVG/Emoji Corrupter
 
+A weird idea;
+You feed the page an .SVG file and it will modify the values in the d="" paths of the SVG based on your paramters and shows you the result on screen. 
+
+
 ## TODO
 
-Make a nice UI with sliders and stuff to fine tune the corruptions.
+Add an emoji picker.
 
-## react-boilerplate
+## react-setup
 
 Simple react boilerplate with the following config:
 
@@ -14,7 +18,7 @@ Simple react boilerplate with the following config:
 - work with `.js` or `.jsx` files
 - main `application.scss` stylesheet is imported in `index.js` as a module to enjoy hot reloading
 
-## Scripts
+## Building & Scripts
 
 To start the local Webpack Dev Server (usually on port `8080`):
 
