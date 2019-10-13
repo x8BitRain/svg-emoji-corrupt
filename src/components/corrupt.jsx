@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import UIkit from 'uikit';
 
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
 let svgOG = [];
@@ -70,24 +71,30 @@ class Corrupt extends Component {
   render() {
     return (
       <React.Fragment>
+      <label className="uk-form-label" for="url">Load SVG from URL</label>
       <input
+        className={"uk-input"}
         placeholder="SVG URL"
+        name="url"
         type="text"
-        className=""
         onChange={this.setSvgUrl}
         defaultValue=""
       />
 
+      <br></br>
+      <label className="uk-form-label" for="value">Target values</label>
       <input
+        className={"uk-input"}
         type="number"
-        className="svgCorruptTargetValues"
+        name="value"
         onChange={this.setCorruptReplace}
         placeholder="345"
       />
 
-      <p>WITH</p>
-      <output for="quantity">
+      <br></br>
+      <label className="uk-form-label" for="quantity">Replace with</label>
       <input
+        className="uk-range"
         type="range"
         name="quantity"
         min="0"
@@ -97,10 +104,13 @@ class Corrupt extends Component {
         value={this.state.corruptAmount}
       />
       {this.state.corruptAmount}
+      <output for="quantity">
       </output>
+
 
       <label>
       <input
+        className="uk-checkbox"
         type="checkbox"
         checked={this.state.corruptUseMultiplier}
         onChange={this.setCorruptUseMultiplier}
@@ -110,8 +120,9 @@ class Corrupt extends Component {
       Use Multiplier?
       </label>
 
-      <Button onClick={this.svgReset} type="info" >Reset</Button>
-      <Button  onClick={this.svgCorrupt} type="warning" >CORRUPT</Button>
+      <br></br>
+      <button onClick={this.svgReset} className="uk-button uk-button-primary" >Reset</button>
+      <button onClick={this.svgCorrupt} className="uk-button uk-button-danger">CORRUPT</button>
 
 
       </React.Fragment>

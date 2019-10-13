@@ -15,18 +15,33 @@ body {
 
 #controls {
   display:grid;
+  width:300px;
   button, input {
-  margin:10px;
+    margin: 10px 0 10px 0;
   }
+  input[type='checkbox'] {
+    margin: 0 7px 1px 0;
+  }
+  label {
+    color:white;
+  }
+  output {
+    display: inline-flex;
+    margin:5px;
+  }
+
 }
 
 #controls-panel {
   position: absolute;
   top: 20px;
   right: 20px;
-  //width: 20%;
+  background-color: #353535;
+  color: #FFFFFF;
   padding: 3%;
+  z-index: 100;
 }
+
 #scene {
   height: auto;
   width: 40vw;
@@ -41,6 +56,6 @@ body {
 #outer-scene {
   height:1000vh;
   width:1000vw;
+  z-index:1;
 }
-
 
