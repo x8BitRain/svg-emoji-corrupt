@@ -1,24 +1,42 @@
 # SVG/Emoji Corrupter
 
-A weird idea;
-You feed the page an .SVG file and it will modify the values in the d="" paths of the SVG based on your paramters and shows you the result on screen. 
 
+
+Feed it an emoji or an SVG file and the corrupter will target the numbers you specify inside the d="" paths of the SVG and replaces them with a random number between whatever you set in the "replace with" slider. Why not?
+
+### IT'S A FEATURE NOT A BUG
+
+As a side effect of the bad reset function I made, if you:
+1. click an emoji
+2. click corrupt
+3. click on another emoji
+4. click reset
+The Emojies will merge :o
 
 ## TODO
 
-Add an emoji picker.
+Fix the bad reset function that results in previous SVG elements stacking onto the current one, or leave it in as a feature idk.
 
-## react-setup
+## dependancies
 
-Simple react boilerplate with the following config:
+Built with Lewagon's react boilerplate with the following packages and config:
 
 - React, ReactDOM
 - Webpack 4
 - Babel with es2015 and react presets
-- work with `.js` or `.jsx` files
 - main `application.scss` stylesheet is imported in `index.js` as a module to enjoy hot reloading
+- emoji-mart 
+- panzoom
+- save-svg-as-png
+- uikit
 
-## Building & Scripts
+## Building
+
+```bash
+git clone https://github.com/x8BitRain/svg-emoji-corrupt.git
+cd svg-emoji-corrupt/
+yarn install
+```
 
 To start the local Webpack Dev Server (usually on port `8080`):
 
