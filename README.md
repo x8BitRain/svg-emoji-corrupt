@@ -1,6 +1,7 @@
+
+![borked](https://raw.githubusercontent.com/x8BitRain/svg-emoji-corrupt/master/assets/stylesheets/out.png "xd")
+
 # SVG/Emoji Corrupter
-
-
 
 Feed it an emoji or an SVG file and the corrupter will target the numbers you specify inside the d="" paths of the SVG and replaces them with a random number between whatever you set in the "replace with" slider. Why not?
 
