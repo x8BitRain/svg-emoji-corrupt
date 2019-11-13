@@ -26,6 +26,7 @@ Built with Lewagon's react boilerplate with the following packages and config:
 - Webpack 4
 - Babel with es2015 and react presets
 - main `application.scss` stylesheet is imported in `index.js` as a module to enjoy hot reloading
+- react-inlinesvg
 - emoji-mart 
 - panzoom
 - save-svg-as-png
