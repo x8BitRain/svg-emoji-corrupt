@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import "../../assets/stylesheets/emoji-mart.scss";
+import { Picker } from "emoji-mart";
 import UIkit from "uikit";
 
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
@@ -13,6 +15,10 @@ class Corrupt extends Component {
       corruptUseMultiplier: true //Default to use corruptAmount as a multiplier for a random value
     };
   }
+
+  handleClick = e => {
+    this.setSvgUrl(`https://twemoji.maxcdn.com/2/svg/${e.unified}.svg`);
+  };
 
   setCorruptAmount = e => {
     this.setState({
@@ -49,7 +55,12 @@ class Corrupt extends Component {
   setSvgUrl = e => {
     svgDataLock = 0;
     svgOG = [];
-    this.props.url(e.target.value);
+    console.log();
+    if (typeof e === "object") {
+      this.props.url(e.target.value);
+    } else if (typeof e === "string") {
+      this.props.url(e);
+    }
     this.svgReset;
   };
 
@@ -140,6 +151,8 @@ class Corrupt extends Component {
         >
           CORRUPT
         </button>
+        <br />
+        <Picker set="twitter" showPreview={false} onSelect={this.handleClick} />
       </React.Fragment>
     );
   }
