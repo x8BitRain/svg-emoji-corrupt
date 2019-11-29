@@ -20,7 +20,7 @@ body {
 
 #controls {
   display:grid;
-  width:300px;
+  width:100%;
   button, input {
     margin: 10px 0 10px 0;
   }
@@ -39,6 +39,7 @@ body {
 
 #controls-panel {
   position: absolute;
+  width:330px;
   top: 0px;
   right: 0px;
   height: 100vh;

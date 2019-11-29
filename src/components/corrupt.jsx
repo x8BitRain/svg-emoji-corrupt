@@ -37,7 +37,8 @@ class Corrupt extends Component {
 
   setCorruptUseMultiplier = e => {
     this.setState({
-      corruptUseMultiplier: !this.state.corruptUseMultiplier
+      corruptUseMultiplier: !this.state.corruptUseMultiplier,
+      corruptAmount: 2
     });
   };
 
@@ -105,7 +106,9 @@ class Corrupt extends Component {
   render() {
     return (
       <React.Fragment>
-        <label className="uk-form-label" for="url">
+        <label
+         uk-tooltip="title: Loads an SVG from a URL or paste SVG markup inside.; pos:left"
+         className="uk-form-label" for="url">
           Load SVG from URL
         </label>
         <input
@@ -118,7 +121,10 @@ class Corrupt extends Component {
         />
 
         <br></br>
-        <label className="uk-form-label" for="value">
+        <label
+        uk-tooltip="title: These are the values that will be replaced.
+        345 = 3, 4 and 5 will be replaced. Can also use negative values.; pos:left"
+        className="uk-form-label" for="value">
           Target values
         </label>
         <input
@@ -148,6 +154,7 @@ class Corrupt extends Component {
 
         <label>
           <input
+            uk-tooltip="title: Corrupts by a random number between zero and 'replace with'.; pos:left"
             className="uk-checkbox"
             type="checkbox"
             checked={this.state.corruptUseMultiplier}
