@@ -6,10 +6,15 @@ html {
   background-size: 16px 16px;
   background-color: #f2f2f2;
   transition: background-color 0.2s ease-in-out;
+  height: 100vh;
+  width: 100vw;
+  margin:0;
 }
 
 body {
+  margin:0;
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
 }
 
@@ -34,12 +39,22 @@ body {
 
 #controls-panel {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 0px;
+  right: 0px;
+  height: 100vh;
   background-color: #353535;
   color: #FFFFFF;
-  padding: 3%;
+  padding: 2em;
   z-index: 100;
+  //overflow: scroll;
+}
+
+@media only screen and (max-width: 680px) {
+#controls-panel {
+    transform-origin: top right;
+    transform: scale(0.5);
+    height: 110%;
+  }
 }
 
 #scene {
@@ -54,8 +69,8 @@ body {
 }
 
 #outer-scene {
-  height:1000vh;
-  width:1000vw;
+  height: 500vh;
+  width: 500vw;
   z-index:1;
 }
 
