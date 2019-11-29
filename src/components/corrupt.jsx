@@ -24,6 +24,7 @@ class Corrupt extends Component {
     this.setState({
       corruptAmount: e.target.value
     });
+    setInterval(this.svgCorrupt(),80);
   };
 
   setCorruptReplace = e => {
