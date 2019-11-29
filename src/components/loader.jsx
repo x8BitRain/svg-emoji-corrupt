@@ -7,16 +7,8 @@ class Loader extends Component {
 
  render() {
     return (
-    <div className="dots">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div class="box">
+      <div class="plane"></div>
     </div>
     );
   }
