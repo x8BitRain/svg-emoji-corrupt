@@ -18,6 +18,7 @@ class Corrupt extends Component {
 
   handleClick = e => {
     this.setSvgUrl(`https://twemoji.maxcdn.com/2/svg/${e.unified}.svg`);
+    console.log(e.unified);
   };
 
   setCorruptAmount = e => {
