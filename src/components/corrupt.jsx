@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../assets/stylesheets/emoji-mart.scss";
 import { Picker } from "emoji-mart";
+import { saveSvgAsPng } from 'save-svg-as-png';
 import UIkit from "uikit";
 
 let svgDataLock = 0; // This stops svgOG from being updated the first execution.
@@ -12,7 +13,7 @@ class Corrupt extends Component {
     this.state = {
       corruptAmount: 0, // Default corruption multiplier
       corruptReplace: 345, // Default corruption target values
-      corruptUseMultiplier: true //Default to use corruptAmount as a multiplier for a random value
+      corruptUseMultiplier: false //Default to use corruptAmount as a multiplier for a random value
     };
   }
 
@@ -88,6 +89,19 @@ class Corrupt extends Component {
     console.log("replacing with " + this.state.corruptAmount);
   };
 
+  getSvgPng = () => {
+    let download = document.querySelector("#scene > svg");
+    let scale = 1;
+    if (download.attributes.viewBox.value === "0 0 36 36") {
+      saveSvgAsPng(download, "corrupted.png", { scale: 30 });
+    } else {
+      saveSvgAsPng(download, "corrupted.png");
+    }
+  };
+
+
+  //saveSvgAsPng(document.getElementById("diagram"), "diagram.png");
+
   render() {
     return (
       <React.Fragment>
@@ -153,8 +167,13 @@ class Corrupt extends Component {
         >
           CORRUPT
         </button>
+        <button  onClick={this.getSvgPng} className='uk-button uk-button-default' style={{'color':'white'}}>
+          Download
+        </button>
         <br />
         <Picker set="twitter" showPreview={false} onSelect={this.handleClick} />
+        <br />
+        <a href="https://github.com/x8BitRain/svg-emoji-corrupt"><span class="uk-label label-react">GitHub</span></a>
       </React.Fragment>
     );
   }
