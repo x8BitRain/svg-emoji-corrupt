@@ -12,7 +12,7 @@ class Corrupt extends Component {
     super(props);
     this.state = {
       corruptAmount: 0, // Default corruption multiplier
-      corruptReplace: 345, // Default corruption target values
+      corruptReplace: 0, // Default corruption target values
       corruptUseMultiplier: false //Default to use corruptAmount as a multiplier for a random value
     };
   }
@@ -33,6 +33,7 @@ class Corrupt extends Component {
     this.setState({
       corruptReplace: e.target.value
     });
+    this.svgCorrupt();
   };
 
   setCorruptUseMultiplier = e => {
@@ -59,7 +60,6 @@ class Corrupt extends Component {
   setSvgUrl = e => {
     svgDataLock = 0;
     svgOG = [];
-    console.log();
     if (typeof e === "object") {
       this.props.url(e.target.value);
     } else if (typeof e === "string") {
@@ -99,9 +99,6 @@ class Corrupt extends Component {
       saveSvgAsPng(download, "corrupted.png");
     }
   };
-
-
-  //saveSvgAsPng(document.getElementById("diagram"), "diagram.png");
 
   render() {
     return (
