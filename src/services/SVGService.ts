@@ -1,11 +1,55 @@
 import Tiger from "../assets/tiger.svg?raw";
-import { Ref } from "vue";
+import { ref, Ref } from "vue";
 import { PanzoomObject } from "@panzoom/panzoom";
 
+interface CorruptionMode {
+  id: string;
+  name: string;
+  active: boolean;
+  description: string;
+  function: (pathData: string, value: string) => string;
+}
+
 class SVGService {
-  parser = new DOMParser();
-  svgElement: Ref<SVGElement> | null = null;
-  panZoom: PanzoomObject | null = null;
+  private parser = new DOMParser();
+  private svgElement: Ref<SVGElement> | null = null;
+  private originalSvgString = "";
+  private originalSvgNode: Node | null = null;
+  private panZoom: PanzoomObject | null = null;
+  private targetValuesArray: number[] = [];
+  private targetValuesRegexp: RegExp | null = null;
+  private replaceValue = "0";
+
+  public corruptionModes: Ref<CorruptionMode[]> = ref([
+    {
+      id: "replace",
+      name: "Replace",
+      active: true,
+      description: "Replace the target values with a single value",
+      function: (pathData: string, value: string) => {
+        return pathData.replace(this.targetValuesRegexp!, value);
+      },
+    },
+    {
+      id: "multiply",
+      name: "Multiply",
+      active: true,
+      description: "Multiply the target values by the selected value",
+      function: (pathData: string, value: string) => {
+        return pathData.replace(this.targetValuesRegexp!, (match) =>
+          String(Number(match) * Number(value)),
+        );
+      },
+    },
+  ]);
+
+  get currentCorruptionMode() {
+    return this.corruptionModes.value.find((mode) => mode.active)!;
+  }
+
+  get disableCorrupt() {
+    return this.targetValuesArray.length === 0;
+  }
 
   public async init(svg: Ref<SVGElement>, panZoom: PanzoomObject) {
     this.svgElement = svg;
@@ -13,14 +57,23 @@ class SVGService {
     await this.loadFromString(Tiger);
   }
 
+  public resetSvg() {
+    this.setSvgElement(this.originalSvgString);
+  }
+
   public setSvgElement(str: string) {
+    this.originalSvgString = str;
     const parsedSvg = this.parser.parseFromString(
       str,
       "image/svg+xml",
     ).documentElement;
     this.svgElement?.value.firstChild?.remove();
     this.panZoom?.reset();
-    this.svgElement?.value.appendChild(parsedSvg);
+    const svg = this.svgElement?.value.appendChild(parsedSvg);
+    if (svg) {
+      this.originalSvgNode = svg.cloneNode(true);
+      console.log(this.originalSvgNode);
+    }
   }
 
   public async loadFromString(svgString: string) {
@@ -64,6 +117,53 @@ class SVGService {
     } catch (error) {
       return false;
     }
+  }
+
+  public corruptSvg() {
+    if (this.disableCorrupt) return;
+    const svgInstance = this.svgElement?.value.querySelector("svg");
+    if (!svgInstance || !this.originalSvgNode || !this.targetValuesRegexp)
+      return;
+
+    const svgPaths = svgInstance.querySelectorAll("path");
+    const originalSvgPaths = (
+      this.originalSvgNode as HTMLElement
+    ).querySelectorAll("path");
+
+    const pathsLength = Math.min(svgPaths.length, originalSvgPaths.length);
+    const currentFunction = this.currentCorruptionMode.function;
+
+    for (let i = 0; i < pathsLength; i++) {
+      const originalPathData = originalSvgPaths[i].getAttribute("d");
+      if (!originalPathData) continue;
+
+      const newPathData = currentFunction(originalPathData, this.replaceValue);
+      svgPaths[i].setAttribute("d", newPathData);
+    }
+  }
+
+  public setTargetValues(values: boolean[]) {
+    this.targetValuesArray = [];
+    for (const value of values) {
+      if (value) {
+        this.targetValuesArray.push(values.indexOf(value));
+      }
+    }
+    if (this.targetValuesArray.length === 0) this.resetSvg();
+    this.targetValuesRegexp = new RegExp(
+      this.targetValuesArray.join("|"),
+      "gi",
+    );
+  }
+
+  public setReplaceValue(value: number) {
+    this.replaceValue = String(value);
+  }
+
+  public setCorruptionMode(modeId: string) {
+    this.corruptionModes.value.find((mode) => {
+      mode.active = mode.id === modeId;
+    });
   }
 }
 
