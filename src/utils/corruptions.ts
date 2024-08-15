@@ -61,7 +61,6 @@ export default [
       value: string,
       _node: SVGPathElement,
     ) => {
-      console.log(search);
       return pathData.replace(search, (match) =>
         String(Math.trunc(Number(match) - Number(value))),
       );

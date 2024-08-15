@@ -44,7 +44,8 @@ window.addCorrupter({
 
 ### Explanation:
 
-This function is called for each found `<path>` node in the SVG.
+This function is called for each found `<path>` node in the SVG. **The function must return `pathData` (modified or not)
+otherwise the SVG will disappear.**
 
 ```typescript
 function: (
