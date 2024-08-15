@@ -55,10 +55,20 @@
         />
       </div>
       <div class="panel__section">
-        <button @click="SVGService.corruptSvg()">Corrupt SVG</button>
+        <div class="section__corrupt-buttons">
+          <button class="corrupt" @click="SVGService.corruptSvg()">
+            Corrupt SVG
+          </button>
+          <button class="reset" @click="SVGService.resetSvg()">
+            Reset SVG
+          </button>
+          <button class="download" @click="SVGService.exportSvgToPng()">
+            Download PNG
+          </button>
+        </div>
       </div>
       <div class="panel__section">
-        <button @click="SVGService.resetSvg()">Reset SVG</button>
+        <EmojiPicker />
       </div>
     </div>
   </div>
@@ -67,13 +77,18 @@
 <script setup lang="ts">
 import { importSVG } from "../utils/file-select.ts";
 import SVGService from "../services/SVGService.ts";
-import { computed, ref, watch } from "vue";
+import { computed, defineAsyncComponent, ref, watch } from "vue";
 import RangeSlider from "./inputs/RangeSlider.vue";
+
+// Data
 
 const svgInput = ref("");
 const targetValues = ref(new Array(10).fill(Boolean(false)));
 const replaceValue = ref(0);
 const corruptionModes = SVGService.corruptionModes;
+const EmojiPicker = defineAsyncComponent(
+  () => import("./inputs/EmojiPicker.vue"),
+);
 
 // Methods
 
@@ -88,7 +103,6 @@ const setTargetValues = () => {
 };
 
 const setReplaceValue = () => {
-  console.log(replaceValue.value);
   SVGService.setReplaceValue(replaceValue.value);
   SVGService.corruptSvg();
 };
@@ -110,7 +124,6 @@ const selectedCorruptionMode = computed(() => SVGService.currentCorruptionMode);
 // Hooks
 
 watch(svgInput, () => {
-  console.log(svgInput.value);
   SVGService.loadFromString(svgInput.value);
 });
 </script>
@@ -122,6 +135,7 @@ watch(svgInput, () => {
   height: 100%;
   width: 30rem;
   right: 0;
+  overflow-y: scroll;
 }
 
 .panel__inner {
@@ -137,6 +151,27 @@ watch(svgInput, () => {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.section__corrupt-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.section__corrupt-buttons > button {
+  padding: 0.5rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.section__corrupt-buttons > button.corrupt {
+  background-color: #f0506e;
+}
+
+.section__corrupt-buttons > button.reset {
+  background-color: #1e87f0;
 }
 
 .input {

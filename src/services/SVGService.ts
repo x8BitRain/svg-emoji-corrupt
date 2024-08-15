@@ -1,4 +1,5 @@
 import Tiger from "../assets/tiger.svg?raw";
+import Loading from "../assets/loading.svg?raw";
 import { ref, Ref } from "vue";
 import { PanzoomObject } from "@panzoom/panzoom";
 import corruptions from "../utils/corruptions.ts";
@@ -59,8 +60,8 @@ class SVGService {
     this.panZoom?.reset();
     const svg = this.svgElement?.value.appendChild(parsedSvg);
     if (svg) {
+      svg.setAttribute("style", "width: 100%; height: 100%;");
       this.originalSvgNode = svg.cloneNode(true);
-      console.log(this.originalSvgNode);
     }
   }
 
@@ -74,6 +75,7 @@ class SVGService {
 
   public async loadSvgFromUrl(url: string) {
     try {
+      this.setSvgElement(Loading);
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -85,7 +87,6 @@ class SVGService {
       if (!contentType || !contentType.includes("image/svg+xml")) {
         throw new Error("The fetched content is not an SVG");
       }
-
       return await response.text();
     } catch (error) {
       alert(`Error fetching SVG: \n\n ${error}`);
@@ -156,6 +157,46 @@ class SVGService {
     this.corruptionModes.value.find((mode) => {
       mode.active = mode.id === modeId;
     });
+  }
+
+  public async exportSvgToPng(): Promise<void> {
+    const svgElement = this.svgElement?.value.querySelector("svg");
+    if (!svgElement) return;
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+
+    const svgBlob = new Blob([svgData], {
+      type: "image/svg+xml;charset=utf-8",
+    });
+
+    const url = URL.createObjectURL(svgBlob);
+
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = svgElement.clientWidth;
+      canvas.height = svgElement.clientHeight;
+
+      context.drawImage(img, 0, 0);
+
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `corrupted.png`;
+          a.click();
+
+          URL.revokeObjectURL(a.href);
+        }
+      }, "image/png");
+    };
+
+    img.src = url;
   }
 }
 

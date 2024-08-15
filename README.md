@@ -1,5 +1,38 @@
-# Vue 3 + TypeScript + Vite
+![borked](https://raw.githubusercontent.com/x8BitRain/svg-emoji-corrupt/master/assets/stylesheets/out.png "xd")
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# SVG/Emoji Corrupter
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+https://x8bitrain.github.io/svg-emoji-corrupt/
+
+Feed it an emoji or an SVG file and the corrupter will target the numbers you specify inside the d="" paths of the SVG
+and replaces them with a random number between whatever you set in the "replace with" slider. Why not?
+
+## TODO
+
+- Add an emoji merge feature.
+
+## Made with
+
+- [vue3-twemoji-picker](https://github.com/limin04551/vue3-twemoji-picker)
+- [panzoom](https://github.com/timmywil/panzoom)
+- [round/SVG](https://github.com/round/SVG/blob/master/README.md)
+
+## Development
+
+```bash
+git clone https://github.com/x8BitRain/svg-emoji-corrupt.git
+cd svg-emoji-corrupt/
+bun install
+```
+
+```bash
+bun dev
+```
+
+## Development
+
+```bash
+bun build
+```
+
+
