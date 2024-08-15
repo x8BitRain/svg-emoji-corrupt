@@ -28,6 +28,33 @@ svg {
     overflow: visible;
 }
 
+input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    color: #000;
+}
+
+select {
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    color: #000;
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;

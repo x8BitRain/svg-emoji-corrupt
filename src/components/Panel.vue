@@ -6,19 +6,14 @@
           <div>
             <label for="svg-input">SVG string or URL</label>
           </div>
-          <button class="input__file" @click="uploadSVG">Upload SVG</button>
+          <button class="file-select" @click="uploadSVG">Upload SVG</button>
         </div>
-        <input
-          class="input__text"
-          v-model="svgInput"
-          id="svg-input"
-          type="text"
-        />
+        <input v-model="svgInput" id="svg-input" type="text" />
       </div>
       <div class="panel__section">
         <span>Corruption mode</span>
         <div>
-          <select v-model="selectedCorruptionMode" class="input__select">
+          <select v-model="selectedCorruptionModeId">
             <option
               v-for="mode in corruptionModes"
               :key="mode.id"
@@ -29,7 +24,7 @@
           </select>
         </div>
       </div>
-      <div class="panel__section">
+      <div class="panel__section" v-if="!selectedCorruptionMode?.random">
         <span>Target Values</span>
         <div class="section__target-values">
           <label
@@ -48,10 +43,9 @@
         </div>
       </div>
       <div class="panel__section">
-        <label for="replace-value">Replace Value: {{ replaceValue }}</label>
-        <input
-          class="input__text"
+        <RangeSlider
           v-model="replaceValue"
+          :label="selectedCorruptionMode.name"
           id="replace-value"
           step="1"
           max="100"
@@ -60,7 +54,6 @@
           @input="setReplaceValue"
         />
       </div>
-      <div class="panel__section"></div>
       <div class="panel__section">
         <button @click="SVGService.corruptSvg()">Corrupt SVG</button>
       </div>
@@ -75,6 +68,7 @@
 import { importSVG } from "../utils/file-select.ts";
 import SVGService from "../services/SVGService.ts";
 import { computed, ref, watch } from "vue";
+import RangeSlider from "./inputs/RangeSlider.vue";
 
 const svgInput = ref("");
 const targetValues = ref(new Array(10).fill(Boolean(false)));
@@ -101,14 +95,17 @@ const setReplaceValue = () => {
 
 // Computed
 
-const selectedCorruptionMode = computed({
+const selectedCorruptionModeId = computed({
   get() {
     return SVGService.currentCorruptionMode.id;
   },
   set(id: string) {
     SVGService.setCorruptionMode(id);
+    SVGService.corruptSvg();
   },
 });
+
+const selectedCorruptionMode = computed(() => SVGService.currentCorruptionMode);
 
 // Hooks
 
@@ -147,34 +144,7 @@ watch(svgInput, () => {
   display: flex;
 }
 
-.input__text {
-  box-sizing: border-box;
-  width: 100%;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  background-color: #fff;
-  color: #000;
-}
-
-.input__select {
-  box-sizing: border-box;
-  width: 100%;
-  padding-top: 0.5rem;
-  padding-left: 0.5rem;
-  padding-bottom: 0.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  background-color: #fff;
-  color: #000;
-}
-
-.input__file {
+.file-select {
   margin-left: auto;
 }
 </style>

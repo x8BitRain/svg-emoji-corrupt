@@ -21,6 +21,10 @@ onMounted(() => {
   });
   SVGService.init(svg, panzoom);
 });
+
+// Debug
+
+import.meta.hot?.accept(() => window.location.reload());
 </script>
 
 <style scoped>

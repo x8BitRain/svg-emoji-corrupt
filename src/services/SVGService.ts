@@ -1,13 +1,20 @@
 import Tiger from "../assets/tiger.svg?raw";
 import { ref, Ref } from "vue";
 import { PanzoomObject } from "@panzoom/panzoom";
+import corruptions from "../utils/corruptions.ts";
 
 interface CorruptionMode {
   id: string;
   name: string;
   active: boolean;
   description: string;
-  function: (pathData: string, value: string) => string;
+  random?: boolean;
+  function: (
+    pathData: string,
+    search: RegExp,
+    value: string,
+    node: SVGElement,
+  ) => string;
 }
 
 class SVGService {
@@ -17,38 +24,19 @@ class SVGService {
   private originalSvgNode: Node | null = null;
   private panZoom: PanzoomObject | null = null;
   private targetValuesArray: number[] = [];
-  private targetValuesRegexp: RegExp | null = null;
+  private targetValuesRegexp: RegExp = new RegExp("0", "gi");
   private replaceValue = "0";
 
-  public corruptionModes: Ref<CorruptionMode[]> = ref([
-    {
-      id: "replace",
-      name: "Replace",
-      active: true,
-      description: "Replace the target values with a single value",
-      function: (pathData: string, value: string) => {
-        return pathData.replace(this.targetValuesRegexp!, value);
-      },
-    },
-    {
-      id: "multiply",
-      name: "Multiply",
-      active: true,
-      description: "Multiply the target values by the selected value",
-      function: (pathData: string, value: string) => {
-        return pathData.replace(this.targetValuesRegexp!, (match) =>
-          String(Number(match) * Number(value)),
-        );
-      },
-    },
-  ]);
+  public corruptionModes: Ref<CorruptionMode[]> = ref(corruptions);
 
   get currentCorruptionMode() {
     return this.corruptionModes.value.find((mode) => mode.active)!;
   }
 
   get disableCorrupt() {
-    return this.targetValuesArray.length === 0;
+    return (
+      this.targetValuesArray.length === 0 && !this.currentCorruptionMode.random
+    );
   }
 
   public async init(svg: Ref<SVGElement>, panZoom: PanzoomObject) {
@@ -122,8 +110,7 @@ class SVGService {
   public corruptSvg() {
     if (this.disableCorrupt) return;
     const svgInstance = this.svgElement?.value.querySelector("svg");
-    if (!svgInstance || !this.originalSvgNode || !this.targetValuesRegexp)
-      return;
+    if (!svgInstance) return;
 
     const svgPaths = svgInstance.querySelectorAll("path");
     const originalSvgPaths = (
@@ -137,16 +124,21 @@ class SVGService {
       const originalPathData = originalSvgPaths[i].getAttribute("d");
       if (!originalPathData) continue;
 
-      const newPathData = currentFunction(originalPathData, this.replaceValue);
+      const newPathData = currentFunction(
+        originalPathData,
+        this.targetValuesRegexp,
+        this.replaceValue,
+        svgPaths[i],
+      );
       svgPaths[i].setAttribute("d", newPathData);
     }
   }
 
   public setTargetValues(values: boolean[]) {
     this.targetValuesArray = [];
-    for (const value of values) {
+    for (const [number, value] of values.entries()) {
       if (value) {
-        this.targetValuesArray.push(values.indexOf(value));
+        this.targetValuesArray.push(number);
       }
     }
     if (this.targetValuesArray.length === 0) this.resetSvg();
