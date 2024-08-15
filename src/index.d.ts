@@ -36,6 +36,6 @@ export interface CorruptionMode {
     pathData: string,
     search: RegExp,
     value: string,
-    node: SVGElement,
+    node: SVGPathElement,
   ) => string;
 }

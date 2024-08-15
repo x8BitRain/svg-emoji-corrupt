@@ -30,10 +30,10 @@ window.addCorrupter({
   active: true,
   description: "Multiply the target values by the selected value",
   function: (
-    pathData: string,
-    search: RegExp,
-    value: string,
-    node: SVGPathElement
+    pathData,
+    search,
+    value,
+    node
   ) => {
     return pathData.replace(search, (match) =>
       String(Math.trunc(Number(match) * Number(value))),

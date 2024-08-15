@@ -1,4 +1,9 @@
 <template>
+  <div class="github">
+    <a href="https://github.com/x8BitRain/svg-emoji-corrupt" target="_blank"
+      >Github</a
+    >
+  </div>
   <div ref="canvas" class="canvas">
     <div ref="svg"></div>
   </div>
@@ -34,5 +39,13 @@ import.meta.hot?.accept(() => window.location.reload());
   margin-right: 30rem;
   height: 100%;
   width: 100%;
+}
+
+.github {
+  position: absolute;
+  bottom: 0;
+  margin: 1rem;
+  color: #1e87f0;
+  z-index: 99;
 }
 </style>

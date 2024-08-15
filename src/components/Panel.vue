@@ -80,7 +80,7 @@
 <script setup lang="ts">
 import { importSVG } from "../utils/file-select.ts";
 import SVGService from "../services/SVGService.ts";
-import { computed, defineAsyncComponent, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
 import RangeSlider from "./inputs/RangeSlider.vue";
 
 // Data
@@ -128,6 +128,11 @@ const selectedCorruptionMode = computed(() => SVGService.currentCorruptionMode);
 
 watch(svgInput, () => {
   SVGService.loadFromString(svgInput.value);
+});
+
+onMounted(() => {
+  targetValues.value[8] = true;
+  SVGService.setTargetValues(targetValues.value);
 });
 </script>
 
