@@ -23,6 +23,9 @@
             </option>
           </select>
         </div>
+        <small>
+          {{ selectedCorruptionMode.description }}
+        </small>
       </div>
       <div class="panel__section" v-if="!selectedCorruptionMode?.random">
         <span>Target Values</span>

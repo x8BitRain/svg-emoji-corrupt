@@ -13,7 +13,7 @@ export default [
       pathData: string,
       search: RegExp,
       value: string,
-      _node: SVGElement,
+      _node: SVGPathElement,
     ) => {
       return pathData.replace(search, value);
     },
@@ -27,7 +27,7 @@ export default [
       pathData: string,
       search: RegExp,
       value: string,
-      _node: SVGElement,
+      _node: SVGPathElement,
     ) => {
       return pathData.replace(search, (match) =>
         String(Math.trunc(Number(match) * Number(value))),
@@ -43,7 +43,7 @@ export default [
       pathData: string,
       search: RegExp,
       value: string,
-      _node: SVGElement,
+      _node: SVGPathElement,
     ) => {
       return pathData.replace(search, (match) =>
         String(Math.trunc(Number(match) + Number(value))),
@@ -59,8 +59,9 @@ export default [
       pathData: string,
       search: RegExp,
       value: string,
-      _node: SVGElement,
+      _node: SVGPathElement,
     ) => {
+      console.log(search);
       return pathData.replace(search, (match) =>
         String(Math.trunc(Number(match) - Number(value))),
       );
@@ -75,7 +76,7 @@ export default [
       pathData: string,
       search: RegExp,
       value: string,
-      _node: SVGElement,
+      _node: SVGPathElement,
     ) => {
       return pathData.replace(search, (match) =>
         String(Math.trunc(Number(match) / Number(value))),
@@ -86,13 +87,13 @@ export default [
     id: "transform",
     name: "Random transforms",
     active: true,
-    description: "Applies random transforms to the target values",
+    description: "Applies an amount of random transforms to the target values",
     random: true,
     function: (
       pathData: string,
       _search: RegExp,
       value: string,
-      node: SVGElement,
+      node: SVGPathElement,
     ) => {
       node.setAttribute("style", getRandomTransforms(Number(value)));
       return pathData;
@@ -102,13 +103,14 @@ export default [
     id: "transform_addition",
     name: "Addition Transforms",
     active: true,
-    description: "Applies random transforms to the target values",
+    description:
+      "Applies an amount of random transforms to the target values, the slider increases the default transform value",
     random: true,
     function: (
       pathData: string,
       _search: RegExp,
       value: string,
-      node: SVGElement,
+      node: SVGPathElement,
     ) => {
       node.setAttribute(
         "style",

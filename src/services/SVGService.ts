@@ -3,20 +3,7 @@ import Loading from "../assets/loading.svg?raw";
 import { ref, Ref } from "vue";
 import { PanzoomObject } from "@panzoom/panzoom";
 import corruptions from "../utils/corruptions.ts";
-
-interface CorruptionMode {
-  id: string;
-  name: string;
-  active: boolean;
-  description: string;
-  random?: boolean;
-  function: (
-    pathData: string,
-    search: RegExp,
-    value: string,
-    node: SVGElement,
-  ) => string;
-}
+import { CorruptionMode } from "../index";
 
 class SVGService {
   private parser = new DOMParser();
@@ -30,14 +17,18 @@ class SVGService {
 
   public corruptionModes: Ref<CorruptionMode[]> = ref(corruptions);
 
-  get currentCorruptionMode() {
+  public get currentCorruptionMode() {
     return this.corruptionModes.value.find((mode) => mode.active)!;
   }
 
-  get disableCorrupt() {
+  private get disableCorrupt() {
     return (
       this.targetValuesArray.length === 0 && !this.currentCorruptionMode.random
     );
+  }
+
+  public addCorrupter(corrupter: CorruptionMode) {
+    this.corruptionModes.value.push(corrupter);
   }
 
   public async init(svg: Ref<SVGElement>, panZoom: PanzoomObject) {

@@ -8,6 +8,17 @@
 <script setup lang="ts">
 import Panel from "./components/Panel.vue";
 import Canvas from "./components/Canvas.vue";
+import { onMounted } from "vue";
+import SVGService from "./services/SVGService.ts";
+import { CorruptionMode } from "./index";
+
+// Hooks
+
+onMounted(() => {
+  window.getCorrupters = () => SVGService.corruptionModes.value;
+  window.addCorrupter = (corrupter: CorruptionMode) =>
+    SVGService.addCorrupter(corrupter);
+});
 </script>
 
 <style scoped>
