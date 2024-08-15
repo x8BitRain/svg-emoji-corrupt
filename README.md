@@ -1,4 +1,5 @@
-![borked](https://raw.githubusercontent.com/x8BitRain/svg-emoji-corrupt/master/assets/stylesheets/out.png "xd")
+![icon](https://github.com/user-attachments/assets/54750fcd-a31a-4aa5-9226-5416f17b2e2f)
+
 
 # SVG/Emoji Corrupter
 
