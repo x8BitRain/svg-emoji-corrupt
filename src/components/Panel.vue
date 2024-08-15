@@ -146,6 +146,15 @@ onMounted(() => {
   overflow-y: scroll;
 }
 
+@media only screen and (max-width: 800px) {
+  .panel {
+    right: unset;
+    bottom: 0;
+    width: 100%;
+    height: 20rem;
+  }
+}
+
 .panel__inner {
   display: grid;
   margin: 2rem;

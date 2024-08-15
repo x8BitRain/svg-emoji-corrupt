@@ -48,4 +48,19 @@ import.meta.hot?.accept(() => window.location.reload());
   color: #1e87f0;
   z-index: 99;
 }
+
+@media only screen and (max-width: 800px) {
+  .canvas {
+    margin-right: 0;
+    margin-bottom: 20rem;
+    height: calc(100% - 20rem);
+  }
+
+  .github {
+    bottom: unset;
+    top: 0;
+    margin: 0.5rem;
+    color: #000;
+  }
+}
 </style>

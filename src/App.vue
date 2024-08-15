@@ -29,4 +29,10 @@ onMounted(() => {
   width: 100%;
   overflow: hidden;
 }
+
+@media only screen and (max-width: 800px) {
+  .root {
+    display: block;
+  }
+}
 </style>
