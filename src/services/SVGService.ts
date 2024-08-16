@@ -151,6 +151,7 @@ class SVGService {
   }
 
   public async exportSvgToPng(): Promise<void> {
+    const scaleFactor = prompt("Enter a scale factor", "2");
     const svgElement = this.svgElement?.value.querySelector("svg");
     if (!svgElement) return;
 
@@ -168,10 +169,19 @@ class SVGService {
 
     const img = new Image();
     img.onload = () => {
-      canvas.width = svgElement.clientWidth;
-      canvas.height = svgElement.clientHeight;
+      const originalWidth = svgElement.clientWidth;
+      const originalHeight = svgElement.clientHeight;
 
-      context.drawImage(img, 0, 0);
+      const scale = Number(scaleFactor || 1);
+
+      canvas.width = originalWidth * scale;
+      canvas.height = originalHeight * scale;
+
+      // Scale the context
+      context.scale(scale, scale);
+
+      // Draw the image at its original size (it will be scaled up)
+      context.drawImage(img, 0, 0, originalWidth, originalHeight);
 
       URL.revokeObjectURL(url);
 
@@ -179,7 +189,7 @@ class SVGService {
         if (blob) {
           const a = document.createElement("a");
           a.href = URL.createObjectURL(blob);
-          a.download = `corrupted.png`;
+          a.download = `corrupted_${scale}x.png`;
           a.click();
 
           URL.revokeObjectURL(a.href);
@@ -188,6 +198,27 @@ class SVGService {
     };
 
     img.src = url;
+  }
+
+  public exportSVG(): void {
+    if (!this.svgElement?.value) return;
+    const svgData = new XMLSerializer().serializeToString(
+      this.svgElement.value,
+    );
+
+    const svgBlob = new Blob([svgData], {
+      type: "image/svg+xml;charset=utf-8",
+    });
+
+    const svgUrl = URL.createObjectURL(svgBlob);
+    const downloadLink = document.createElement("a");
+
+    downloadLink.href = svgUrl;
+    downloadLink.download = "corrupted.svg";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(svgUrl);
   }
 }
 

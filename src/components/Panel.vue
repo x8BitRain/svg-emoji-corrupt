@@ -68,6 +68,9 @@
           <button class="download" @click="SVGService.exportSvgToPng()">
             Download PNG
           </button>
+          <button class="download" @click="SVGService.exportSVG()">
+            Download SVG
+          </button>
         </div>
       </div>
       <div class="panel__section">
