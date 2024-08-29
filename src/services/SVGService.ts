@@ -14,6 +14,8 @@ class SVGService {
   private targetValuesArray: number[] = [];
   private targetValuesRegexp: RegExp = new RegExp("0", "gi");
   private replaceValue = "0";
+  public enableTransformAnimation = ref(true);
+  public transformAnimationMs = ref(100);
 
   public corruptionModes: Ref<CorruptionMode[]> = ref(corruptions);
 
@@ -21,10 +23,43 @@ class SVGService {
     return this.corruptionModes.value.find((mode) => mode.active)!;
   }
 
+  private get svgNode() {
+    return this.svgElement?.value.querySelector("svg");
+  }
+
   private get disableCorrupt() {
     return (
       this.targetValuesArray.length === 0 && !this.currentCorruptionMode.random
     );
+  }
+
+  public toggleTransformAnimation(enable: boolean) {
+    this.enableTransformAnimation.value = enable;
+    if (enable) {
+      const styleElement = document.createElement("style");
+
+      // Set the CSS content
+      styleElement.textContent = `
+        path {
+            transition: transform ease-in-out ${this.transformAnimationMs.value}ms
+        }
+    `;
+      this.svgElement?.value?.appendChild(styleElement);
+    } else {
+      this.svgElement?.value.querySelector("style")?.remove();
+    }
+  }
+
+  public setTransformAnimationMs(ms: number) {
+    this.transformAnimationMs.value = ms;
+    const styleElement = this.svgElement?.value.querySelector("style");
+    if (styleElement) {
+      styleElement.textContent = `
+          path {
+              transition: transform ease-in-out ${this.transformAnimationMs.value}ms
+          }
+      `;
+    }
   }
 
   public addCorrupter(corrupter: CorruptionMode) {
@@ -47,12 +82,15 @@ class SVGService {
       str,
       "image/svg+xml",
     ).documentElement;
-    this.svgElement?.value.firstChild?.remove();
+    this.svgElement?.value.replaceChildren();
     this.panZoom?.reset();
     const svg = this.svgElement?.value.appendChild(parsedSvg);
     if (svg) {
       svg.setAttribute("style", "width: 100%; height: 100%;");
       this.originalSvgNode = svg.cloneNode(true);
+    }
+    if (this.enableTransformAnimation.value) {
+      this.toggleTransformAnimation(true);
     }
   }
 

@@ -45,6 +45,31 @@
           >
         </div>
       </div>
+      <div
+        class="panel__section"
+        v-if="selectedCorruptionMode?.id.match('transform')"
+      >
+        <div class="section__animate-transforms">
+          <label :for="'enable_animate_transforms'">
+            <input
+              :id="'enable_animate_transforms'"
+              type="checkbox"
+              :value="enableTransformAnimations"
+              v-model="enableTransformAnimations"
+            />
+            Animate Transforms</label
+          >
+          <label :for="'animate_transforms_ms'">
+            <input
+              :id="'animate_transforms_ms'"
+              type="number"
+              :value="transformAnimationMs"
+              v-model="transformAnimationMs"
+            />
+            ms
+          </label>
+        </div>
+      </div>
       <div class="panel__section">
         <RangeSlider
           v-model="replaceValue"
@@ -125,6 +150,24 @@ const selectedCorruptionModeId = computed({
   },
 });
 
+const enableTransformAnimations = computed({
+  get() {
+    return SVGService.enableTransformAnimation.value;
+  },
+  set(enable: boolean) {
+    SVGService.toggleTransformAnimation(enable);
+  },
+});
+
+const transformAnimationMs = computed({
+  get() {
+    return SVGService.transformAnimationMs.value;
+  },
+  set(amount: number) {
+    SVGService.setTransformAnimationMs(amount);
+  },
+});
+
 const selectedCorruptionMode = computed(() => SVGService.currentCorruptionMode);
 
 // Hooks
@@ -136,6 +179,7 @@ watch(svgInput, () => {
 onMounted(() => {
   targetValues.value[8] = true;
   SVGService.setTargetValues(targetValues.value);
+  SVGService.toggleTransformAnimation(true);
 });
 </script>
 
@@ -171,6 +215,11 @@ onMounted(() => {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.section__animate-transforms {
+  display: flex;
+  justify-content: space-between;
 }
 
 .section__corrupt-buttons {

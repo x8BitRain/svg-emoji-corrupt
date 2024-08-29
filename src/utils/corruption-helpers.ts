@@ -73,3 +73,44 @@ export const getRandomTransformsByAddition = (
     .map(() => `transform: ${getRandomTransform()};`)
     .join(" ");
 };
+
+export const getRandomTransformsByMultiplication = (
+  amount: number = 1,
+): string => {
+  const transforms = [
+    () =>
+      `matrix(${Array.from({ length: 6 }, () => Math.random() * 10 - 5).join(", ")})`,
+    () =>
+      `matrix3d(${Array.from({ length: 16 }, () => Math.random() * 2 - 1).join(", ")})`,
+    () => `perspective(${Math.random() * 1000 * amount}px)`,
+    () => `rotate(${Math.random() * 360}deg)`,
+    () =>
+      `rotate3d(${Math.random()}, ${Math.random()}, ${Math.random()}, ${Math.random() * 360 * amount}deg)`,
+    () => `rotateX(${Math.random() * 360}deg)`,
+    () => `rotateY(${Math.random() * 360}deg)`,
+    () => `rotateZ(${Math.random() * 360}deg)`,
+    () => `translate(${Math.random() * 100}px, ${Math.random() * 100}%)`,
+    () =>
+      `translate3d(${Math.random() * 100}px, ${Math.random() * 100}%, ${Math.random() * 100 * amount}em)`,
+    () => `translateX(${Math.random() * 100 * amount}em)`,
+    () => `translateY(${Math.random() * 100 * amount}in)`,
+    () => `translateZ(${Math.random() * 100 * amount}px)`,
+    () => `scale(${Math.random() * 3}, ${Math.random() * 3})`,
+    () =>
+      `scale3d(${Math.random() * 3}, ${Math.random() * 3}, ${Math.random() * 3 * amount})`,
+    () => `scaleX(${Math.random() * 3 * amount})`,
+    () => `scaleY(${Math.random() * 3 * amount})`,
+    () => `scaleZ(${Math.random() * 3 * amount})`,
+    () =>
+      `skew(${Math.random() * 90 * amount}deg, ${Math.random() * 90 * amount}deg)`,
+    () => `skewX(${Math.random() * 90 * amount}deg)`,
+    () => `skewY(${((Math.random() * Math.PI) / 2) * amount}rad)`,
+  ];
+
+  const randomTransform =
+    transforms[Math.floor(Math.random() * transforms.length)];
+  return Array(amount)
+    .fill(null)
+    .map(() => `transform: ${randomTransform()};`)
+    .join(" ");
+};

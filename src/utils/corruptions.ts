@@ -1,6 +1,7 @@
 import {
   getRandomTransforms,
   getRandomTransformsByAddition,
+  getRandomTransformsByMultiplication,
 } from "./corruption-helpers.ts";
 
 export default [
@@ -119,6 +120,26 @@ export default [
     },
   },
   {
+    id: "transform_multiply",
+    name: "Multiplication Transforms",
+    active: true,
+    description:
+      "Applies an amount of random transforms to the target values, the slider increases the default transform value",
+    random: true,
+    function: (
+      pathData: string,
+      _search: RegExp,
+      value: string,
+      node: SVGPathElement,
+    ) => {
+      node.setAttribute(
+        "style",
+        getRandomTransformsByMultiplication(Number(value)),
+      );
+      return pathData;
+    },
+  },
+  {
     id: "random_creations",
     name: "Random creations",
     active: false,
@@ -126,10 +147,10 @@ export default [
       "Generates completely new path data with random commands and coordinates",
     random: true,
     function: (
-      pathData: string,
+      _pathData: string,
       _search: RegExp,
       value: string,
-      node: SVGPathElement,
+      _node: SVGPathElement,
     ) => {
       const newValue = Number(value);
       const randomInRange = (min: number, max: number): number =>
@@ -262,7 +283,7 @@ export default [
               "feColorMatrix",
             );
             feColorMatrix.setAttribute("type", "matrix");
-            const matrixValues = Array.from({ length: 20 }, () =>
+            const matrixValues = Array.from({ length: value }, () =>
               (Math.random() * value - 1).toFixed(2),
             ).join(" ");
             feColorMatrix.setAttribute("values", matrixValues);
