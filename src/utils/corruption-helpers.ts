@@ -1,3 +1,7 @@
+export const getRandomArbitrary = (min: number, max: number) => {
+  return Math.random() * (max - min) + min;
+};
+
 export const getRandomTransforms = (amount: number = 1): string => {
   const transforms = [
     () =>

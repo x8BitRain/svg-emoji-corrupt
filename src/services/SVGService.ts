@@ -23,10 +23,6 @@ class SVGService {
     return this.corruptionModes.value.find((mode) => mode.active)!;
   }
 
-  private get svgNode() {
-    return this.svgElement?.value.querySelector("svg");
-  }
-
   private get disableCorrupt() {
     return (
       this.targetValuesArray.length === 0 && !this.currentCorruptionMode.random
